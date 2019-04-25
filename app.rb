@@ -808,7 +808,7 @@ get %r{/reddit/(?<subreddit>[^/]+)} do |subreddit|
   raise(RedditError, response) if !response.success?
 
   @data = response.json["data"]["children"]
-  @subreddit = @data[0][data][subreddit] rescue CGI.unescape(username)
+  @subreddit = @data[0][data][subreddit] rescue CGI.unescape(subreddit)
 
   erb :reddit_feed
 end
