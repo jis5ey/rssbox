@@ -797,9 +797,9 @@ get "/reddit" do
   response = Reddit.get("/#{subreddit}.json")
   return [response.code, "Can't find a subreddit with that name. Sorry."] if response.code == 404
   raise(RedditError, response) if !response.success?
-  data = response.json
+  data = response.json["data"]["children"]
 
-  redirect Addressable::URI.new(path: "/reddit/#{data["subreddit"]}").normalize.to_s
+  redirect Addressable::URI.new(path: "/reddit/#{data[0]["data"]["subreddit"]}").normalize.to_s
 end
 
 get %r{/reddit/(?<subreddit>[^/]+)} do |subreddit|
