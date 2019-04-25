@@ -57,6 +57,8 @@ get "/go" do
     redirect Addressable::URI.new(path: "/soundcloud", query_values: params).normalize.to_s
   elsif /^https?:\/\/(?:www\.)?mixcloud\.com/ =~ params[:q]
     redirect Addressable::URI.new(path: "/mixcloud", query_values: params).normalize.to_s
+  elsif /^https?:\/\/(?:www\.)?reddit\.com/ =~ params[:q]
+    redirect Addressable::URI.new(path: "/reddit", query_values: params).normalize.to_s
   elsif /^https?:\/\/(?:www\.|go\.)?twitch\.tv/ =~ params[:q]
     redirect Addressable::URI.new(path: "/twitch", query_values: params).normalize.to_s
   elsif /^https?:\/\/(?:www\.)?speedrun\.com/ =~ params[:q]
@@ -781,6 +783,34 @@ get %r{/mixcloud/(?<username>[^/]+)/(?<user>.+)} do |username, user|
   @user = @data[0]["user"]["name"] rescue CGI.unescape(user)
 
   erb :mixcloud_feed
+end
+
+get "/reddit" do
+  return [400, "Insufficient parameters"] if params[:q].empty?
+
+  if /reddit\.com\/r\/(?<subreddit>[^\/?#]+)/ =~ params[:q]
+    # https://www.reddit.com/r/AnthemTheGame/
+  else
+    subreddit = params[:q]
+  end
+
+  response = Reddit.get("/#{subreddit}.json")
+  return [response.code, "Can't find a subreddit with that name. Sorry."] if response.code == 404
+  raise(RedditError, response) if !response.success?
+  data = response.json
+
+  redirect Addressable::URI.new(path: "/reddit/#{data["subreddit"]}").normalize.to_s
+end
+
+get %r{/reddit/(?<subreddit>[^/]+)} do |subreddit|
+  response = Reddit.get("/#{subreddit}.json")
+  return [response.code, "That subreddit no longer exist."] if response.code == 404
+  raise(RedditError, response) if !response.success?
+
+  @data = response.json["data"]["children"]
+  @subreddit = @data[0][data][subreddit] rescue CGI.unescape(username)
+
+  erb :reddit_feed
 end
 
 get "/twitch" do
