@@ -7,10 +7,7 @@
   "success_url": "/",
   "addons": [
     {
-      "plan": "heroku-redis",
-      "options": {
-        "maxmemory": "allkeys-lru"
-      }
+      "plan": "heroku-redis:hobby-dev"
     }
   ],
   "keywords": ["rss"],
