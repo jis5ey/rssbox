@@ -9,7 +9,7 @@
   <updated><%= Time.at(@data[0]["data"]["created"].to_i) if @data[0]["data"] %></updated>
 <%- 
 @data.each do |post| 
-body = "#{CGI.unescapeHTML(post["data"]["selftext_html"])}" 
+body = CGI.unescapeHTML(post["data"]["selftext_html"]).to_s
 -%>
   <entry>
     <id>reddit:post:<%= post["data"]["name"] %><%= ":#{params[:cachebuster]}" if params[:cachebuster] %></id>
@@ -26,6 +26,7 @@ body = "#{CGI.unescapeHTML(post["data"]["selftext_html"])}"
   <!-- SC_ON --> &#32; submitted by &#32; <a href="https://www.reddit.com/user/#{post["data"]["author"]}"> /u/#{post["data"]["author"]} </a> <br/> <span><a href="#{post["data"]["url"]}">[link]</a></span> &#32; <span><a href="https://www.reddit.com#{post["data"]["permalink"]}">[comments]</a></span>
 EOF
 -%>
+<%= "&quot;In our nation&rsquo;s capital, killings have risen by 50 percent.&quot;".html_safe %>
     </content>
   </entry>
 <%- end -%>
