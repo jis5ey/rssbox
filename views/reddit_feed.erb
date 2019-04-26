@@ -9,7 +9,7 @@
   <updated><%= Time.at(@data[0]["data"]["created"].to_i) if @data[0]["data"] %></updated>
 <%- 
 @data.each do |post| 
-body = CGI.unescapeHTML(post["data"]["selftext_html"]).to_s
+body = CGI.unescapeHTML(post["data"]["selftext_html"].to_s)
 -%>
   <entry>
     <id>reddit:post:<%= post["data"]["name"] %><%= ":#{params[:cachebuster]}" if params[:cachebuster] %></id>
