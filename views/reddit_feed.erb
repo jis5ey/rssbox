@@ -12,7 +12,7 @@
   <entry>
     <id>reddit:post:<%= post["data"]["name"] %><%= ":#{params[:cachebuster]}" if params[:cachebuster] %></id>
     <title><%= post["data"]["title"].to_line.esc %></title>
-    <link href="<%= post["data"]["url"].esc %>" />
+    <link href="https://www.reddit.com<%= post["data"]["permalink"].esc %>" />
     <updated><%= Time.at(post["data"]["created"].to_i) %></updated>
     <author><name>/u/<%= post["data"]["author"].esc %></name><uri>https://www.reddit.com/user/<%= post["data"]["author"].esc %></uri></author>
     <upvotes><%= post["data"]["ups"] %></upvotes>
@@ -22,6 +22,7 @@
   #{post["data"]["selftext"].to_paragraphs}
 EOF
 -%>
+<!-- SC_ON --> &#32; submitted by &#32; <a href="https://www.reddit.com/user/<%= post["data"]["author"].esc %>"> /u/<%= post["data"]["author"].esc %> </a> <br/> <span><a href="<%= post["data"]["url"].esc %>">[link]</a></span> &#32; <span><a href="https://www.reddit.com<%= post["data"]["permalink"].esc %>">[comments]</a></span>
     </content>
   </entry>
 <%- end -%>
