@@ -19,7 +19,7 @@
     <comments><%= post["data"]["num_comments"] %></comments>
     <content type="html">
 <%= <<~EOF.esc
-#{post["data"]["selftext_html"]}
+#{CGI.unescapeHTML(post["data"]["selftext_html"])}
   <!-- SC_ON --> &#32; submitted by &#32; <a href="https://www.reddit.com/user/#{post["data"]["author"]}"> /u/#{post["data"]["author"]} </a> <br/> <span><a href="#{post["data"]["url"]}">[link]</a></span> &#32; <span><a href="https://www.reddit.com#{post["data"]["permalink"]}">[comments]</a></span>
 EOF
 -%>
