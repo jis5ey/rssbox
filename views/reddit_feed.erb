@@ -20,7 +20,8 @@
     <content type="html">
 <%= <<~EOF.esc
   #{post["data"]["selftext"].to_paragraphs}
-  <!-- SC_ON --> &#32; submitted by &#32; <a href="https://www.reddit.com/user/<%= post["data"]["author"].esc %>"> /u/<%= post["data"]["author"].esc %> </a> <br/> <span><a href="<%= post["data"]["url"].esc %>">[link]</a></span> &#32; <span><a href="https://www.reddit.com<%= post["data"]["permalink"].esc %>">[comments]</a></span>
+  
+  <!-- SC_ON --> &#32; submitted by &#32; <a href="https://www.reddit.com/user/#{post["data"]["author"]}"> /u/#{post["data"]["author"]} </a> <br/> <span><a href="#{post["data"]["url"]}">[link]</a></span> &#32; <span><a href="https://www.reddit.com#{post["data"]["permalink"]}">[comments]</a></span>
 EOF
 -%>
     </content>
