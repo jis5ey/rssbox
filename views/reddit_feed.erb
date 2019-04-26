@@ -6,7 +6,7 @@
   <icon>https://www.redditstatic.com/icon.png</icon>
   <link href="<%= request.original_url.esc %>" rel="self" />
   <link href="https://www.reddit.com/r/<%= @subreddit %>/" rel="alternate" />
-  <updated><%= Time.at(@data[0][data]["created"]) if @data[0][data] %></updated>
+  <updated><%= Time.at(@data[0][data]["created"].to_i) if @data[0][data] %></updated>
 <%- @data.each do |post| -%>
 
   <entry>
